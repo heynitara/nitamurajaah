@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7b7cf">
+<title>Muslimah Study 2 🌷 — Sambung Ayat by Donita</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <button class="brand" data-page="home" aria-label="Beranda">
+      <span class="brand-flower">🌷</span><span><b>Muslimah Study 2</b><small>Sambung Ayat by Donita</small></span>
+    </button>
+    <nav>
+      <button data-page="home" class="nav-btn active">🏠 Beranda</button>
+      <button data-page="game" class="nav-btn">📖 Main</button>
+      <button data-page="surah" class="nav-btn">🔎 Surah</button>
+      <button data-page="stats" class="nav-btn">📊 Statistik</button>
+    </nav>
+    <button id="themeBtn" class="icon-btn" title="Mode gelap">🌙</button>
+  </header>
+
+  <main>
+    <section id="home" class="page active">
+      <div class="hero card">
+        <div>
+          <span class="eyebrow">🌷 LEARN • GROW • PRAY</span>
+          <h1>Belajar Al-Qur'an,<br><span>jadi lebih baik</span> setiap hari.</h1>
+          <p>Latih hafalan sambung ayat dengan cara yang ringan, cute, dan menyenangkan.</p>
+          <div class="hero-actions">
+            <button class="primary" data-page="game">▶ Mulai Sambung Ayat</button>
+            <button class="secondary" data-page="surah">📚 Lihat Surah</button>
+          </div>
+        </div>
+        <div class="mascot">🌷<strong>Donita</strong><small>Keep going!</small></div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat card"><span>⭐</span><div><small>Level</small><b id="homeLevel">1</b></div></div>
+        <div class="stat card"><span>✨</span><div><small>Total XP</small><b id="homeXp">0</b></div></div>
+        <div class="stat card"><span>🔥</span><div><small>Streak</small><b id="homeStreak">0 hari</b></div></div>
+        <div class="stat card"><span>🪙</span><div><small>Koin</small><b id="homeCoins">100</b></div></div>
+      </div>
+
+      <div class="section-head"><div><span class="eyebrow">GAME MODE</span><h2>Pilih cara belajarmu</h2></div></div>
+      <div class="mode-grid">
+        <button class="mode-card card" data-page="game"><span>📖</span><b>Sambung Ayat</b><small>Pilih ayat berikutnya & kumpulkan XP.</small></button>
+        <button class="mode-card card" data-page="surah"><span>🌸</span><b>Eksplor Surah</b><small>Cari surah dan lihat ayat yang tersedia.</small></button>
+        <button class="mode-card card" data-page="stats"><span>🏆</span><b>Pencapaian</b><small>Lihat progres, akurasi, dan badge.</small></button>
+      </div>
+
+      <div class="quote card">“Sedikit demi sedikit, yang penting istiqamah.” <span>— Donita 🌷</span></div>
+    </section>
+
+    <section id="game" class="page">
+      <div class="game-wrap">
+        <div class="game-top">
+          <div><span class="eyebrow">SAMBUNG AYAT</span><h2 id="gameSurah">QS. Ad-Duha</h2></div>
+          <div class="game-meta"><span>❤️ <b id="lives">3</b></span><span>🪙 <b id="coins">100</b></span><span>⏱️ <b id="timer">30</b>s</span></div>
+        </div>
+        <div class="progress-card card">
+          <div><span>Level <b id="level">1</b></span><span><b id="xp">0</b> XP</span></div>
+          <div class="bar"><i id="xpBar"></i></div>
+        </div>
+        <div class="question card">
+          <div class="question-title"><span id="questionCount">Pertanyaan 1/10</span><span id="combo">Combo ×0</span></div>
+          <div class="ayah-label">Ayat sebelumnya</div>
+          <div id="currentAyah" class="arabic previous">وَالضُّحَىٰ ۝١</div>
+          <div class="prompt">Ayat selanjutnya adalah...</div>
+          <div id="answers" class="answers"></div>
+          <div class="game-actions">
+            <button id="hintBtn" class="secondary">💡 Petunjuk <small>10 🪙</small></button>
+            <button id="skipBtn" class="ghost">Lewati</button>
+          </div>
+        </div>
+        <div class="game-tip">🌷 <b>Tip:</b> jawab dengan tenang. Kamu sedang membangun kebiasaan, bukan mengejar sempurna.</div>
+      </div>
+    </section>
+
+    <section id="surah" class="page">
+      <div class="section-head"><div><span class="eyebrow">EXPLORE</span><h2>Surah & Ayat</h2><p>Materi demo yang bisa kamu jadikan dasar untuk memperluas bank soal.</p></div></div>
+      <div class="search card"><span>🔎</span><input id="surahSearch" placeholder="Cari nama surah..."></div>
+      <div id="surahList" class="surah-grid"></div>
+      <div class="notice card">📌 <b>Catatan:</b> konten ayat pada versi ini adalah dataset demo untuk fitur game. Untuk penggunaan belajar yang serius, cocokkan teks dengan mushaf atau sumber Al-Qur'an tepercaya.</div>
+    </section>
+
+    <section id="stats" class="page">
+      <div class="section-head"><div><span class="eyebrow">YOUR JOURNEY</span><h2>Statistik & Pencapaian</h2></div></div>
+      <div class="dashboard card">
+        <div class="profile-circle">🌷</div>
+        <div class="profile-info"><h3>Muslimah Learner</h3><p id="profileText">Terus bertumbuh, satu ayat demi satu ayat.</p></div>
+        <div class="level-big"><small>LEVEL</small><b id="statsLevel">1</b></div>
+      </div>
+      <div class="stats-grid detailed">
+        <div class="stat card"><span>🎯</span><div><small>Akurasi</small><b id="accuracy">0%</b></div></div>
+        <div class="stat card"><span>🔥</span><div><small>Streak terbaik</small><b id="bestStreak">0</b></div></div>
+        <div class="stat card"><span>🏁</span><div><small>Game selesai</small><b id="games">0</b></div></div>
+        <div class="stat card"><span>🧠</span><div><small>Benar</small><b id="correct">0</b></div></div>
+      </div>
+      <h3 class="subhead">🏅 Badge</h3>
+      <div id="badges" class="badge-grid"></div>
+      <button id="resetBtn" class="danger">Reset semua progres</button>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <div id="resultModal" class="modal"><div class="modal-box card"><button id="closeModal" class="modal-close">×</button><div class="result-icon">🌷</div><h2>Game selesai!</h2><p id="resultTitle"></p><div class="result-grid"><div><small>Skor</small><b id="resultScore">0</b></div><div><small>Akurasi</small><b id="resultAccuracy">0%</b></div><div><small>XP</small><b id="resultXp">+0</b></div><div><small>Koin</small><b id="resultCoins">+0</b></div></div><button class="primary" id="againBtn">▶ Main lagi</button></div></div>
+</div>
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
