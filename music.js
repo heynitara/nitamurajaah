@@ -1,93 +1,93 @@
-/* Muslimah Study 2 — soft original background music
-   Generated with the Web Audio API, so no external audio file is required. */
+/* Muslimah Study 2 — background music + cute game sound effects */
 (() => {
-  let ctx = null;
-  let master = null;
-  let timer = null;
+  let audio = null;
   let playing = false;
-  let step = 0;
-
-  const melody = [
-    [261.63, 0.42], [329.63, 0.42], [392.00, 0.60], [329.63, 0.42],
-    [293.66, 0.42], [349.23, 0.42], [440.00, 0.60], [349.23, 0.42],
-    [261.63, 0.42], [329.63, 0.42], [392.00, 0.42], [523.25, 0.70],
-    [440.00, 0.42], [392.00, 0.42], [329.63, 0.60], [293.66, 0.70]
-  ];
-  const chords = [
-    [261.63, 329.63, 392.00],
-    [293.66, 349.23, 440.00],
-    [261.63, 329.63, 392.00],
-    [246.94, 329.63, 392.00]
-  ];
+  const sfx = {};
+  let soundEnabled = true;
 
   function setup() {
-    if (ctx) return;
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
-    master = ctx.createGain();
-    master.gain.value = 0.055;
-    master.connect(ctx.destination);
-  }
+    if (audio) return;
+    audio = new Audio('muslimah-study-2-bg-music.wav');
+    audio.loop = true;
+    audio.preload = 'auto';
+    audio.volume = 0.24;
 
-  function tone(freq, duration, when, type='sine', gain=0.045) {
-    const osc = ctx.createOscillator();
-    const g = ctx.createGain();
-    osc.type = type;
-    osc.frequency.value = freq;
-    g.gain.setValueAtTime(0.0001, when);
-    g.gain.exponentialRampToValueAtTime(gain, when + 0.035);
-    g.gain.exponentialRampToValueAtTime(0.0001, when + duration);
-    osc.connect(g).connect(master);
-    osc.start(when);
-    osc.stop(when + duration + 0.03);
-  }
+    sfx.correct = new Audio('sfx-correct.wav');
+    sfx.wrong = new Audio('sfx-wrong.wav');
+    sfx.whoosh = new Audio('sfx-whoosh.wav');
+    sfx.victory = new Audio('sfx-victory.wav');
+    sfx.click = new Audio('sfx-click.wav');
+    Object.values(sfx).forEach(a => { a.preload = 'auto'; a.volume = 0.34; });
 
-  function playStep() {
-    if (!playing || !ctx) return;
-    const now = ctx.currentTime + 0.02;
-    const [freq, dur] = melody[step % melody.length];
-    const chord = chords[Math.floor(step / 4) % chords.length];
-    tone(freq, dur, now, 'sine', 0.035);
-    if (step % 4 === 0) chord.forEach((f, i) => tone(f / 2, 1.55, now + i * 0.03, 'triangle', 0.010));
-    step++;
+    audio.addEventListener('play', () => { playing = true; updateButton(); });
+    audio.addEventListener('pause', () => { playing = false; updateButton(); });
+    audio.addEventListener('ended', () => { playing = false; updateButton(); });
+    audio.addEventListener('error', () => {
+      playing = false;
+      updateButton();
+      const btn = document.getElementById('musicBtn');
+      if (btn) btn.title = 'File musik tidak dapat diputar';
+    });
   }
 
   async function start() {
     setup();
-    if (ctx.state === 'suspended') await ctx.resume();
-    if (playing) return;
-    playing = true;
-    playStep();
-    timer = setInterval(playStep, 520);
-    updateButton();
+    try {
+      await audio.play();
+      playing = true;
+      updateButton();
+    } catch (err) {
+      toastMusic('Klik tombol 🎵 sekali lagi untuk memulai musik');
+    }
   }
 
   function stop() {
+    if (!audio) return;
+    audio.pause();
+    audio.currentTime = 0;
     playing = false;
-    clearInterval(timer);
-    timer = null;
     updateButton();
+  }
+
+  function playSfx(name) {
+    setup();
+    if (!soundEnabled || !sfx[name]) return;
+    const a = sfx[name].cloneNode(true);
+    a.volume = sfx[name].volume;
+    a.play().catch(() => {});
   }
 
   function updateButton() {
     const btn = document.getElementById('musicBtn');
     if (!btn) return;
-    btn.textContent = playing ? '🔊 Musik' : '🎵 Musik';
+    btn.textContent = playing ? '🔊 Musik ON' : '🎵 Musik OFF';
     btn.setAttribute('aria-pressed', String(playing));
     btn.title = playing ? 'Matikan musik' : 'Nyalakan musik';
     btn.classList.toggle('music-on', playing);
+  }
+
+  function toastMusic(message) {
+    const el = document.getElementById('toast');
+    if (!el) return;
+    el.textContent = message;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2200);
   }
 
   window.MuslimahMusic = {
     toggle: () => playing ? stop() : start(),
     start,
     stop,
-    isPlaying: () => playing
+    isPlaying: () => playing,
+    setVolume: (v) => { setup(); audio.volume = Math.max(0, Math.min(1, v)); },
+    toggleSounds: () => { soundEnabled = !soundEnabled; return soundEnabled; },
+    playSfx
   };
 
   document.addEventListener('DOMContentLoaded', () => {
+    setup();
     const btn = document.getElementById('musicBtn');
-    if (!btn) return;
-    btn.addEventListener('click', () => window.MuslimahMusic.toggle());
+    if (btn) btn.addEventListener('click', () => window.MuslimahMusic.toggle());
     updateButton();
   });
 })();

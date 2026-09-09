@@ -17,8 +17,9 @@ function updateStats(){
   renderBadges();
 }
 function toast(t){let x=$("#toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1800)}
+function sfx(name){if(window.MuslimahMusic)window.MuslimahMusic.playSfx(name)}
 function go(page){$$(".page").forEach(x=>x.classList.toggle("active",x.id===page));$$("[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===page));window.scrollTo({top:0,behavior:"smooth"});if(page==="stats")updateStats();if(page==="game"&&questions.length===0)startGame()}
-$$("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+$$("[data-page]").forEach(b=>b.addEventListener("click",()=>{sfx("click");go(b.dataset.page)}));
 $("#themeBtn").onclick=()=>{state.theme=state.theme==="dark"?"light":"dark";document.body.classList.toggle("dark",state.theme==="dark");$("#themeBtn").textContent=state.theme==="dark"?"☀️":"🌙";save()};
 if(state.theme==="dark"){document.body.classList.add("dark");$("#themeBtn").textContent="☀️"}
 
@@ -60,23 +61,23 @@ function answer(choice,correct,btn,timeout=false){
   if(choice===correct){
     if(btn)btn.classList.add("correct");
     state.correct++;session.correct++;state.combo++;let gain=10+Math.min(state.combo*2,10);state.xp+=gain;state.coins+=5;session.xp+=gain;session.coins+=5;session.score+=100+state.combo*10;
-    toast(state.combo>=3?"🔥 Combo keren! +"+gain+" XP":"✨ Benar! +"+gain+" XP");
+    sfx("correct"); toast(state.combo>=3?"🔥 Combo keren! +"+gain+" XP":"✨ Benar! +"+gain+" XP");
     save();updateStats();setTimeout(()=>{qIndex++;renderQuestion()},650);
   }else{
     if(btn)btn.classList.add("wrong");
     let correctBtn=$$(".answer").find(x=>+x.dataset.n===correct);if(correctBtn)correctBtn.classList.add("correct");
-    state.lives=Math.max(0,state.lives-1);state.combo=0;toast(timeout?"⏰ Waktu habis!":"💗 Belum tepat, coba lagi!");
+    state.lives=Math.max(0,state.lives-1);state.combo=0;sfx("wrong"); toast(timeout?"⏰ Waktu habis!":"💗 Belum tepat, coba lagi!");
     save();updateStats();
     setTimeout(()=>{if(state.lives<=0){finishGame()}else{qIndex++;renderQuestion()}},900);
   }
 }
 $("#hintBtn").onclick=()=>{
   if(state.coins<10){toast("🪙 Koin belum cukup");return}
-  state.coins-=10;save();let correct=questions[qIndex]?.next.n;if(correct){let btns=$$(".answer");let wrong=btns.filter(b=>+b.dataset.n!==correct);if(wrong.length){wrong[0].style.opacity=".25";wrong[0].disabled=true}}updateStats();toast("💡 Satu pilihan disamarkan!");
+  state.coins-=10;save();let correct=questions[qIndex]?.next.n;if(correct){let btns=$$(".answer");let wrong=btns.filter(b=>+b.dataset.n!==correct);if(wrong.length){wrong[0].style.opacity=".25";wrong[0].disabled=true}}updateStats();sfx("click");toast("💡 Satu pilihan disamarkan!");
 }
-$("#skipBtn").onclick=()=>{if(gameOver)return;clearInterval(timerId);state.combo=0;toast("⏭️ Pertanyaan dilewati");qIndex++;renderQuestion()}
+$("#skipBtn").onclick=()=>{if(gameOver)return;clearInterval(timerId);state.combo=0;sfx("whoosh");toast("⏭️ Pertanyaan dilewati");qIndex++;renderQuestion()}
 function finishGame(){
-  if(gameOver)return;gameOver=true;clearInterval(timerId);
+  if(gameOver)return;gameOver=true;clearInterval(timerId);sfx("victory");
   state.games++;state.xp+=session.xp; // session.xp is already added in answer; neutralized below
   state.xp-=session.xp;
   state.streak=Math.min(state.streak+1,999);state.bestStreak=Math.max(state.bestStreak,state.streak);
