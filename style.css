@@ -4,3 +4,10 @@
 body.dark{--cream:#211a1d;--ink:#f7e8ed;--muted:#bfaab2;--card:#2b2226;--line:#48353c;background:linear-gradient(135deg,#211a1d,#2b2025)}body.dark .card,.dark .hero{background:rgba(43,34,38,.92)}body.dark .answer{background:#31262a;color:#f7e8ed}body.dark .answer:hover{background:#3b2d32}body.dark .search input{color:#fff}body.dark .mascot{background:#33272c}
 @media(max-width:800px){.topbar{height:auto;padding:15px 0;flex-wrap:wrap}nav{order:3;width:100%;overflow:auto}.nav-btn{white-space:nowrap}.hero{padding:30px;min-height:0}.hero h1{font-size:34px}.mascot{width:145px;height:145px;font-size:50px}.stats-grid,.mode-grid{grid-template-columns:1fr 1fr}.surah-grid{grid-template-columns:1fr 1fr}.badge-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.app-shell{padding:0 13px 35px}.hero{display:block}.mascot{margin:25px auto 0}.stats-grid,.mode-grid,.surah-grid{grid-template-columns:1fr}.answers{grid-template-columns:1fr}.game-top{align-items:start}.game-meta{gap:7px;font-size:11px}.previous{font-size:27px}.question{padding:20px}.dashboard{align-items:flex-start}.level-big{margin-left:auto}.brand b{font-size:13px}}
+
+
+/* Background music control */
+.top-actions{display:flex;align-items:center;gap:8px}
+.music-btn{font-size:.88rem;padding:10px 13px;min-width:92px}
+.music-btn.music-on{box-shadow:0 0 0 3px rgba(217,137,168,.14);transform:translateY(-1px)}
+@media(max-width:760px){.music-btn{min-width:auto;padding:9px 10px}.music-btn{font-size:0}.music-btn::after{content:"🎵";font-size:1rem}}
