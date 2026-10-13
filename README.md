@@ -2,9 +2,14 @@
 
 **Learn • Grow • Pray • Become Better**
 
-Aplikasi game belajar sambung ayat berbasis HTML, CSS, JavaScript, dan JSON. Dirancang ringan agar mudah dideploy di GitHub Pages.
+Aplikasi game belajar sambung ayat berbasis HTML, CSS, JavaScript, dan JSON.  
+Sekarang dilengkapi **Cloud Save + Leaderboard** via Google Sheets & Apps Script (100% gratis).
+
+---
 
 ## Fitur
+
+### Game
 - 🎮 Game Sambung Ayat dengan soal acak
 - ⭐ XP & level
 - ❤️ 3 lives
@@ -17,25 +22,63 @@ Aplikasi game belajar sambung ayat berbasis HTML, CSS, JavaScript, dan JSON. Dir
 - 🌙 dark mode
 - 💾 Local Storage — progres tersimpan di browser
 - 📱 responsive untuk HP, tablet, dan laptop
-- 📦 tanpa framework/build system
 
-## Cara deploy ke GitHub Pages
-1. Buat repository baru di GitHub, misalnya `muslimah-study-2`.
-2. Upload semua file di folder ini ke repository.
-3. Pastikan `index.html` berada di root repository.
+### Cloud (baru!)
+- ☁️ **Simpan & Restore progres** ke Google Sheets (nama + PIN)
+- 🏆 **Leaderboard global** (ranking berdasarkan XP)
+- 💌 **Kirim saran / request surah**
+- ⚙️ Setup API sekali, lalu semua user bisa pakai
+
+---
+
+## Cara Deploy ke GitHub Pages
+
+1. Buat repository baru di GitHub (misalnya `muslimah-study-2`).
+2. Upload **semua file di folder ini** (kecuali folder `appscript` boleh ikut, tidak mengganggu).
+3. Pastikan `index.html` berada di **root** repository.
 4. Buka **Settings → Pages**.
-5. Pada **Build and deployment**, pilih **Deploy from a branch**.
-6. Pilih branch `main` dan folder `/ (root)`, lalu **Save**.
-7. Tunggu beberapa saat dan buka URL GitHub Pages yang diberikan GitHub.
+5. **Build and deployment** → **Deploy from a branch**.
+6. Pilih branch `main` dan folder `/ (root)` → **Save**.
+7. Tunggu beberapa saat, lalu buka URL GitHub Pages.
 
-## Catatan data Al-Qur'an
-`data.json` berisi dataset demo untuk fungsi game. Untuk penggunaan belajar yang serius, verifikasi teks ayat dengan mushaf atau sumber Al-Qur'an tepercaya sebelum memperluas dataset.
+---
 
-## Struktur
-- `index.html` — struktur halaman
-- `style.css` — desain cute pink/cream
-- `script.js` — game, statistik, Local Storage
-- `data.js` — fallback loader
-- `data.json` — bank data surah & ayat
+## Setup Database (Google Sheets + Apps Script)
+
+**Ikuti panduan lengkap di file:** [`SETUP-GOOGLE.md`](SETUP-GOOGLE.md)
+
+Ringkasan:
+1. Buat Google Spreadsheet dengan sheet `Users` dan `Feedback`.
+2. Paste kode dari `appscript/Code.gs` ke Apps Script.
+3. Deploy sebagai **Web App** (Execute as: Me, Who has access: Anyone).
+4. Salin URL Web App → tempel di website (tab Cloud → Pengaturan API).
+
+---
+
+## Struktur File
+
+```
+├── index.html          # Struktur halaman
+├── style.css           # Desain cute pink/cream + dark mode
+├── script.js           # Game + Cloud Save + Leaderboard
+├── data.js             # Fallback loader
+├── data.json           # Bank data surah & ayat (demo)
+├── music.js            # Background music + SFX
+├── favicon.svg
+├── *.wav / *.png       # Assets audio & gambar
+├── appscript/
+│   └── Code.gs         # Backend Google Apps Script
+├── SETUP-GOOGLE.md     # Panduan setup database
+└── README.md
+```
+
+---
+
+## Catatan Data Al-Qur'an
+
+`data.json` berisi dataset demo untuk fungsi game (7 surah pendek).  
+Untuk penggunaan belajar yang serius, verifikasi teks ayat dengan mushaf atau sumber Al-Qur'an tepercaya sebelum memperluas dataset.
+
+---
 
 Made with 🌷 for Muslimah Study 2 — Sambung Ayat by Donita.

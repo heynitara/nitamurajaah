@@ -4,34 +4,42 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f7b7cf">
+<meta name="description" content="Muslimah Study 2 — Belajar sambung ayat Al-Qur'an dengan cara yang ringan, cute, dan menyenangkan.">
 <title>Muslimah Study 2 🌷 — Sambung Ayat by Donita</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app-shell">
   <header class="topbar">
     <button class="brand" data-page="home" aria-label="Beranda">
-      <span class="brand-flower">🌷</span><span><b>Muslimah Study 2</b><small>Sambung Ayat by Donita</small></span>
+      <span class="brand-flower">🌷</span>
+      <span><b>Muslimah Study 2</b><small>Sambung Ayat by Donita</small></span>
     </button>
     <nav>
       <button data-page="home" class="nav-btn active">🏠 Beranda</button>
       <button data-page="game" class="nav-btn">📖 Main</button>
       <button data-page="surah" class="nav-btn">🔎 Surah</button>
       <button data-page="stats" class="nav-btn">📊 Statistik</button>
+      <button data-page="cloud" class="nav-btn">☁️ Cloud</button>
     </nav>
-    <div class="top-actions"><button id="musicBtn" class="icon-btn music-btn" title="Nyalakan musik" aria-pressed="false">🎵 Musik OFF</button><button id="themeBtn" class="icon-btn" title="Mode gelap">🌙</button></div>
+    <div class="top-actions">
+      <button id="musicBtn" class="icon-btn music-btn" title="Nyalakan musik" aria-pressed="false">🎵 Musik OFF</button>
+      <button id="themeBtn" class="icon-btn" title="Mode gelap">🌙</button>
+    </div>
   </header>
 
   <main>
+    <!-- HOME -->
     <section id="home" class="page active">
       <div class="hero card">
         <div>
           <span class="eyebrow">🌷 LEARN • GROW • PRAY</span>
           <h1>Belajar Al-Qur'an,<br><span>jadi lebih baik</span> setiap hari.</h1>
-          <p>Latih hafalan sambung ayat dengan cara yang ringan, cute, dan menyenangkan.</p>
+          <p>Latih hafalan sambung ayat dengan cara yang ringan, cute, dan menyenangkan. Progresmu bisa disimpan di cloud!</p>
           <div class="hero-actions">
             <button class="primary" data-page="game">▶ Mulai Sambung Ayat</button>
-            <button class="secondary" data-page="surah">📚 Lihat Surah</button>
+            <button class="secondary" data-page="cloud">☁️ Simpan / Restore</button>
           </div>
         </div>
         <div class="mascot">🌷<strong>Donita</strong><small>Keep going!</small></div>
@@ -46,26 +54,35 @@
 
       <div class="section-head"><div><span class="eyebrow">GAME MODE</span><h2>Pilih cara belajarmu</h2></div></div>
       <div class="mode-grid">
-        <button class="mode-card card" data-page="game"><span>📖</span><b>Sambung Ayat</b><small>Pilih ayat berikutnya & kumpulkan XP.</small></button>
+        <button class="mode-card card" data-page="game"><span>📖</span><b>Sambung Ayat</b><small>Pilih ayat berikutnya &amp; kumpulkan XP.</small></button>
         <button class="mode-card card" data-page="surah"><span>🌸</span><b>Eksplor Surah</b><small>Cari surah dan lihat ayat yang tersedia.</small></button>
         <button class="mode-card card" data-page="stats"><span>🏆</span><b>Pencapaian</b><small>Lihat progres, akurasi, dan badge.</small></button>
+        <button class="mode-card card" data-page="cloud"><span>☁️</span><b>Cloud &amp; Ranking</b><small>Simpan progres &amp; lihat leaderboard.</small></button>
       </div>
 
       <div class="quote card">“Sedikit demi sedikit, yang penting istiqamah.” <span>— Donita 🌷</span></div>
     </section>
 
+    <!-- GAME -->
     <section id="game" class="page">
       <div class="game-wrap">
         <div class="game-top">
           <div><span class="eyebrow">SAMBUNG AYAT</span><h2 id="gameSurah">QS. Ad-Duha</h2></div>
-          <div class="game-meta"><span>❤️ <b id="lives">3</b></span><span>🪙 <b id="coins">100</b></span><span>⏱️ <b id="timer">30</b>s</span></div>
+          <div class="game-meta">
+            <span>❤️ <b id="lives">3</b></span>
+            <span>🪙 <b id="coins">100</b></span>
+            <span>⏱️ <b id="timer">30</b>s</span>
+          </div>
         </div>
         <div class="progress-card card">
           <div><span>Level <b id="level">1</b></span><span><b id="xp">0</b> XP</span></div>
           <div class="bar"><i id="xpBar"></i></div>
         </div>
         <div class="question card">
-          <div class="question-title"><span id="questionCount">Pertanyaan 1/10</span><span id="combo">Combo ×0</span></div>
+          <div class="question-title">
+            <span id="questionCount">Pertanyaan 1/10</span>
+            <span id="combo">Combo ×0</span>
+          </div>
           <div class="ayah-label">Ayat sebelumnya</div>
           <div id="currentAyah" class="arabic previous">وَالضُّحَىٰ ۝١</div>
           <div class="prompt">Ayat selanjutnya adalah...</div>
@@ -79,18 +96,29 @@
       </div>
     </section>
 
+    <!-- SURAH -->
     <section id="surah" class="page">
-      <div class="section-head"><div><span class="eyebrow">EXPLORE</span><h2>Surah & Ayat</h2><p>Materi demo yang bisa kamu jadikan dasar untuk memperluas bank soal.</p></div></div>
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">EXPLORE</span>
+          <h2>Surah &amp; Ayat</h2>
+          <p>Materi demo yang bisa kamu jadikan dasar untuk memperluas bank soal.</p>
+        </div>
+      </div>
       <div class="search card"><span>🔎</span><input id="surahSearch" placeholder="Cari nama surah..."></div>
       <div id="surahList" class="surah-grid"></div>
-      <div class="notice card">📌 <b>Catatan:</b> konten ayat pada versi ini adalah dataset demo untuk fitur game. Untuk penggunaan belajar yang serius, cocokkan teks dengan mushaf atau sumber Al-Qur'an tepercaya.</div>
+      <div class="notice card">📌 <b>Catatan:</b> konten ayat pada versi ini adalah dataset demo. Untuk belajar serius, cocokkan teks dengan mushaf atau sumber Al-Qur'an tepercaya.</div>
     </section>
 
+    <!-- STATS -->
     <section id="stats" class="page">
-      <div class="section-head"><div><span class="eyebrow">YOUR JOURNEY</span><h2>Statistik & Pencapaian</h2></div></div>
+      <div class="section-head"><div><span class="eyebrow">YOUR JOURNEY</span><h2>Statistik &amp; Pencapaian</h2></div></div>
       <div class="dashboard card">
         <div class="profile-circle">🌷</div>
-        <div class="profile-info"><h3>Muslimah Learner</h3><p id="profileText">Terus bertumbuh, satu ayat demi satu ayat.</p></div>
+        <div class="profile-info">
+          <h3 id="profileName">Muslimah Learner</h3>
+          <p id="profileText">Terus bertumbuh, satu ayat demi satu ayat.</p>
+        </div>
         <div class="level-big"><small>LEVEL</small><b id="statsLevel">1</b></div>
       </div>
       <div class="stats-grid detailed">
@@ -101,12 +129,96 @@
       </div>
       <h3 class="subhead">🏅 Badge</h3>
       <div id="badges" class="badge-grid"></div>
-      <button id="resetBtn" class="danger">Reset semua progres</button>
+      <button id="resetBtn" class="danger">Reset semua progres lokal</button>
+    </section>
+
+    <!-- CLOUD -->
+    <section id="cloud" class="page">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">CLOUD SAVE</span>
+          <h2>Simpan &amp; Restore Progres</h2>
+          <p>Progresmu aman di Google Sheets. Ganti HP? Tinggal masukkan nama + PIN.</p>
+        </div>
+      </div>
+
+      <div class="cloud-grid">
+        <!-- Save / Load -->
+        <div class="card cloud-card">
+          <h3>☁️ Akun Cloud</h3>
+          <p class="cloud-hint">Buat nama + PIN (minimal 3 karakter). Sama seperti password sederhana.</p>
+          <div class="form-row">
+            <label>Nama</label>
+            <input id="cloudName" type="text" maxlength="40" placeholder="contoh: Donita" autocomplete="username">
+          </div>
+          <div class="form-row">
+            <label>PIN</label>
+            <input id="cloudPin" type="password" maxlength="12" placeholder="minimal 3 karakter" autocomplete="current-password">
+          </div>
+          <div class="cloud-actions">
+            <button id="btnSaveCloud" class="primary">💾 Simpan ke Cloud</button>
+            <button id="btnLoadCloud" class="secondary">📥 Ambil dari Cloud</button>
+          </div>
+          <p id="cloudStatus" class="cloud-status"></p>
+          <p class="cloud-note">⚠️ Jangan bagikan PIN-mu. Data hanya bisa diakses dengan nama + PIN yang sama.</p>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="card cloud-card">
+          <div class="lb-head">
+            <h3>🏆 Leaderboard</h3>
+            <button id="btnRefreshLb" class="ghost small">🔄 Refresh</button>
+          </div>
+          <div id="leaderboardList" class="leaderboard">
+            <div class="lb-empty">Tekan Refresh untuk memuat ranking 🌷</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="card cloud-card feedback-card">
+        <h3>💌 Saran &amp; Request Surah</h3>
+        <p class="cloud-hint">Mau surah apa ditambahkan? Kirim saranmu di sini.</p>
+        <div class="form-row">
+          <label>Pesan</label>
+          <textarea id="feedbackMsg" rows="3" maxlength="500" placeholder="Contoh: Tolong tambah Surah Al-Mulk..."></textarea>
+        </div>
+        <button id="btnFeedback" class="secondary">Kirim Saran</button>
+        <p id="feedbackStatus" class="cloud-status"></p>
+      </div>
+
+      <!-- API URL config (for owner) -->
+      <details class="card cloud-card api-config">
+        <summary>⚙️ Pengaturan API (untuk admin)</summary>
+        <p class="cloud-hint">Tempel URL Web App dari Google Apps Script di sini. Disimpan di LocalStorage browser.</p>
+        <div class="form-row">
+          <label>Apps Script Web App URL</label>
+          <input id="apiUrl" type="url" placeholder="https://script.google.com/macros/s/XXXX/exec">
+        </div>
+        <button id="btnSaveApi" class="secondary">Simpan URL API</button>
+        <button id="btnPingApi" class="ghost">Ping API</button>
+        <p id="apiStatus" class="cloud-status"></p>
+      </details>
     </section>
   </main>
 
   <div id="toast" class="toast"></div>
-  <div id="resultModal" class="modal"><div class="modal-box card"><button id="closeModal" class="modal-close">×</button><div class="result-icon">🌷</div><h2>Game selesai!</h2><p id="resultTitle"></p><div class="result-grid"><div><small>Skor</small><b id="resultScore">0</b></div><div><small>Akurasi</small><b id="resultAccuracy">0%</b></div><div><small>XP</small><b id="resultXp">+0</b></div><div><small>Koin</small><b id="resultCoins">+0</b></div></div><button class="primary" id="againBtn">▶ Main lagi</button></div></div>
+  <div id="resultModal" class="modal">
+    <div class="modal-box card">
+      <button id="closeModal" class="modal-close">×</button>
+      <div class="result-icon">🌷</div>
+      <h2>Game selesai!</h2>
+      <p id="resultTitle"></p>
+      <div class="result-grid">
+        <div><small>Skor</small><b id="resultScore">0</b></div>
+        <div><small>Akurasi</small><b id="resultAccuracy">0%</b></div>
+        <div><small>XP</small><b id="resultXp">+0</b></div>
+        <div><small>Koin</small><b id="resultCoins">+0</b></div>
+      </div>
+      <button class="primary" id="againBtn">▶ Main lagi</button>
+      <button class="secondary" id="saveAfterGame" style="margin-top:8px">☁️ Simpan ke Cloud</button>
+    </div>
+  </div>
 </div>
 <script src="data.js"></script>
 <script src="music.js"></script>
