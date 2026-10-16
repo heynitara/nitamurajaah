@@ -7,6 +7,10 @@ const API_KEY = 'muslimahStudy2ApiUrl';
 const CLOUD_KEY = 'muslimahStudy2CloudCreds';
 const ADMIN_PASS_KEY = 'muslimahStudy2AdminPassSession';
 
+/* URL Web App Apps Script (endpoint publik, bukan secret).
+   Bisa diganti lewat Cloud → URL API jika deploy ulang dengan URL baru. */
+const DEFAULT_API_URL = 'https://script.google.com/macros/s/AKfycbyYBo8DxYRvxfTpyi4WIV87_SqKgUJDwxhR2O-Exgt_KZm0HaFquBgen9LEPCprXMj1iA/exec';
+
 const defaultState = {
   xp: 0, coins: 100, lives: 3, streak: 0, bestStreak: 0,
   games: 0, correct: 0, answered: 0, combo: 0, theme: 'light',
@@ -25,7 +29,8 @@ let adminPassword = sessionStorage.getItem(ADMIN_PASS_KEY) || '';
 
 /* ── API ────────────────────────────────────────────────── */
 function getApiUrl() {
-  return (localStorage.getItem(API_KEY) || '').trim().replace(/\/$/, '');
+  const saved = (localStorage.getItem(API_KEY) || '').trim().replace(/\/$/, '');
+  return saved || DEFAULT_API_URL;
 }
 
 function setApiUrl(url) {
@@ -34,51 +39,50 @@ function setApiUrl(url) {
 
 async function apiCall(action, payload = {}) {
   const url = getApiUrl();
-  if (!url) throw new Error('URL API belum di-set. Buka tab Cloud → ⚙️ URL API, atau isi di Admin.');
+  if (!url) throw new Error('URL API belum di-set.');
 
   const body = { action, ...payload };
   if (adminPassword && String(action).startsWith('admin_')) {
     body.adminPassword = adminPassword;
   }
 
-  const fullUrl = url + (url.includes('?') ? '&' : '?') + 'action=' + encodeURIComponent(action);
+  // Apps Script Web App paling stabil via GET + redirect follow
+  const q = new URLSearchParams({ action });
+  Object.keys(body).forEach(k => {
+    if (k === 'action') return;
+    const v = body[k];
+    if (v !== undefined && v !== null && typeof v !== 'object') q.set(k, String(v));
+  });
+  const getUrl = url + (url.includes('?') ? '&' : '?') + q.toString();
 
   let res;
   try {
-    res = await fetch(fullUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(body),
-      redirect: 'follow'
-    });
-  } catch (netErr) {
-    // Fallback GET (beberapa deployment lebih stabil)
-    const q = new URLSearchParams({ action, ...flattenForGet(body) });
-    res = await fetch(url + (url.includes('?') ? '&' : '?') + q.toString(), {
-      method: 'GET',
-      redirect: 'follow'
-    });
+    res = await fetch(getUrl, { method: 'GET', redirect: 'follow', credentials: 'omit' });
+  } catch (e1) {
+    // Fallback POST
+    try {
+      res = await fetch(url + (url.includes('?') ? '&' : '?') + 'action=' + encodeURIComponent(action), {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(body),
+        redirect: 'follow',
+        credentials: 'omit'
+      });
+    } catch (e2) {
+      throw new Error('Gagal koneksi ke API. Cek internet / deploy Web App (Anyone).');
+    }
   }
 
-  if (!res.ok) throw new Error('HTTP ' + res.status + ' — cek deploy Web App (Anyone)');
+  if (!res.ok) throw new Error('HTTP ' + res.status + ' — pastikan deploy: Who has access = Anyone');
   let json;
   try {
-    json = await res.json();
+    const text = await res.text();
+    json = JSON.parse(text);
   } catch (e) {
-    throw new Error('Respon bukan JSON. Pastikan deploy sebagai Web App dan URL berakhiran /exec');
+    throw new Error('Respon bukan JSON. Pastikan URL berakhiran /exec dan script Code.gs terbaru sudah di-deploy.');
   }
   if (!json.ok) throw new Error(json.error || 'Gagal');
   return json;
-}
-
-function flattenForGet(obj) {
-  const out = {};
-  Object.keys(obj).forEach(k => {
-    if (k === 'action') return;
-    const v = obj[k];
-    if (v !== undefined && v !== null && typeof v !== 'object') out[k] = String(v);
-  });
-  return out;
 }
 
 /* ── Core game ──────────────────────────────────────────── */
@@ -145,12 +149,10 @@ function go(page) {
       $('#cloudName').value = creds.name || '';
       $('#cloudPin').value = creds.pin || '';
     }
-    const api = getApiUrl();
-    if (api) $('#apiUrl').value = api;
+    $('#apiUrl').value = getApiUrl();
   }
   if (page === 'admin') {
-    const api = getApiUrl();
-    if (api) $('#adminApiUrl').value = api;
+    $('#adminApiUrl').value = getApiUrl();
     if (adminPassword) {
       showAdminDash(true);
       refreshAdminData();
