@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f7b7cf">
-<meta name="description" content="Muslimah Study 2 — Belajar sambung ayat Al-Qur'an dengan cara yang ringan, cute, dan menyenangkan.">
+<meta name="description" content="Muslimah Study 2 — Belajar sambung ayat Al-Qur'an dengan cara yang ringan, cute, dan menyenangkan. Progres bisa disimpan di cloud.">
 <title>Muslimah Study 2 🌷 — Sambung Ayat by Donita</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
@@ -22,6 +22,8 @@
       <button data-page="surah" class="nav-btn">🔎 Surah</button>
       <button data-page="stats" class="nav-btn">📊 Statistik</button>
       <button data-page="cloud" class="nav-btn">☁️ Cloud</button>
+      <button data-page="guide" class="nav-btn">📖 Panduan</button>
+      <button data-page="admin" class="nav-btn nav-admin">🔐 Admin</button>
     </nav>
     <div class="top-actions">
       <button id="musicBtn" class="icon-btn music-btn" title="Nyalakan musik" aria-pressed="false">🎵 Musik OFF</button>
@@ -30,28 +32,26 @@
   </header>
 
   <main>
-    <!-- HOME -->
     <section id="home" class="page active">
       <div class="hero card">
         <div>
           <span class="eyebrow">🌷 LEARN • GROW • PRAY</span>
           <h1>Belajar Al-Qur'an,<br><span>jadi lebih baik</span> setiap hari.</h1>
-          <p>Latih hafalan sambung ayat dengan cara yang ringan, cute, dan menyenangkan. Progresmu bisa disimpan di cloud!</p>
+          <p>Latih hafalan sambung ayat dengan cara yang ringan, cute, dan menyenangkan. Progresmu bisa disimpan di cloud gratis!</p>
           <div class="hero-actions">
             <button class="primary" data-page="game">▶ Mulai Sambung Ayat</button>
             <button class="secondary" data-page="cloud">☁️ Simpan / Restore</button>
+            <button class="ghost" data-page="guide">📖 Cara pakai</button>
           </div>
         </div>
         <div class="mascot">🌷<strong>Donita</strong><small>Keep going!</small></div>
       </div>
-
       <div class="stats-grid">
         <div class="stat card"><span>⭐</span><div><small>Level</small><b id="homeLevel">1</b></div></div>
         <div class="stat card"><span>✨</span><div><small>Total XP</small><b id="homeXp">0</b></div></div>
         <div class="stat card"><span>🔥</span><div><small>Streak</small><b id="homeStreak">0 hari</b></div></div>
         <div class="stat card"><span>🪙</span><div><small>Koin</small><b id="homeCoins">100</b></div></div>
       </div>
-
       <div class="section-head"><div><span class="eyebrow">GAME MODE</span><h2>Pilih cara belajarmu</h2></div></div>
       <div class="mode-grid">
         <button class="mode-card card" data-page="game"><span>📖</span><b>Sambung Ayat</b><small>Pilih ayat berikutnya &amp; kumpulkan XP.</small></button>
@@ -59,11 +59,9 @@
         <button class="mode-card card" data-page="stats"><span>🏆</span><b>Pencapaian</b><small>Lihat progres, akurasi, dan badge.</small></button>
         <button class="mode-card card" data-page="cloud"><span>☁️</span><b>Cloud &amp; Ranking</b><small>Simpan progres &amp; lihat leaderboard.</small></button>
       </div>
-
       <div class="quote card">“Sedikit demi sedikit, yang penting istiqamah.” <span>— Donita 🌷</span></div>
     </section>
 
-    <!-- GAME -->
     <section id="game" class="page">
       <div class="game-wrap">
         <div class="game-top">
@@ -96,7 +94,6 @@
       </div>
     </section>
 
-    <!-- SURAH -->
     <section id="surah" class="page">
       <div class="section-head">
         <div>
@@ -110,7 +107,6 @@
       <div class="notice card">📌 <b>Catatan:</b> konten ayat pada versi ini adalah dataset demo. Untuk belajar serius, cocokkan teks dengan mushaf atau sumber Al-Qur'an tepercaya.</div>
     </section>
 
-    <!-- STATS -->
     <section id="stats" class="page">
       <div class="section-head"><div><span class="eyebrow">YOUR JOURNEY</span><h2>Statistik &amp; Pencapaian</h2></div></div>
       <div class="dashboard card">
@@ -132,7 +128,6 @@
       <button id="resetBtn" class="danger">Reset semua progres lokal</button>
     </section>
 
-    <!-- CLOUD -->
     <section id="cloud" class="page">
       <div class="section-head">
         <div>
@@ -141,12 +136,10 @@
           <p>Progresmu aman di Google Sheets. Ganti HP? Tinggal masukkan nama + PIN.</p>
         </div>
       </div>
-
       <div class="cloud-grid">
-        <!-- Save / Load -->
         <div class="card cloud-card">
           <h3>☁️ Akun Cloud</h3>
-          <p class="cloud-hint">Buat nama + PIN (minimal 3 karakter). Sama seperti password sederhana.</p>
+          <p class="cloud-hint">Buat nama + PIN (minimal 3 karakter). Ini seperti password sederhana — jangan bagikan.</p>
           <div class="form-row">
             <label>Nama</label>
             <input id="cloudName" type="text" maxlength="40" placeholder="contoh: Donita" autocomplete="username">
@@ -160,10 +153,8 @@
             <button id="btnLoadCloud" class="secondary">📥 Ambil dari Cloud</button>
           </div>
           <p id="cloudStatus" class="cloud-status"></p>
-          <p class="cloud-note">⚠️ Jangan bagikan PIN-mu. Data hanya bisa diakses dengan nama + PIN yang sama.</p>
+          <p class="cloud-note">⚠️ Data hanya bisa diakses dengan nama + PIN yang sama. Secret admin tidak pernah ada di GitHub Pages.</p>
         </div>
-
-        <!-- Leaderboard -->
         <div class="card cloud-card">
           <div class="lb-head">
             <h3>🏆 Leaderboard</h3>
@@ -174,8 +165,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Feedback -->
       <div class="card cloud-card feedback-card">
         <h3>💌 Saran &amp; Request Surah</h3>
         <p class="cloud-hint">Mau surah apa ditambahkan? Kirim saranmu di sini.</p>
@@ -186,19 +175,201 @@
         <button id="btnFeedback" class="secondary">Kirim Saran</button>
         <p id="feedbackStatus" class="cloud-status"></p>
       </div>
-
-      <!-- API URL config (for owner) -->
       <details class="card cloud-card api-config">
-        <summary>⚙️ Pengaturan API (untuk admin)</summary>
-        <p class="cloud-hint">Tempel URL Web App dari Google Apps Script di sini. Disimpan di LocalStorage browser.</p>
+        <summary>⚙️ URL API (isi sekali setelah deploy Apps Script)</summary>
+        <p class="cloud-hint">Tempel URL Web App dari Google Apps Script. Disimpan hanya di browser-mu (LocalStorage), <b>bukan</b> di file GitHub.</p>
         <div class="form-row">
           <label>Apps Script Web App URL</label>
           <input id="apiUrl" type="url" placeholder="https://script.google.com/macros/s/XXXX/exec">
         </div>
-        <button id="btnSaveApi" class="secondary">Simpan URL API</button>
-        <button id="btnPingApi" class="ghost">Ping API</button>
+        <div class="cloud-actions">
+          <button id="btnSaveApi" class="secondary">Simpan URL API</button>
+          <button id="btnPingApi" class="ghost">Ping API</button>
+          <button id="btnSetupApi" class="ghost">Jalankan Setup DB</button>
+        </div>
         <p id="apiStatus" class="cloud-status"></p>
       </details>
+    </section>
+
+    <section id="guide" class="page">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">HELP</span>
+          <h2>Panduan Pemakaian</h2>
+          <p>Cara memakai fitur game dan database cloud.</p>
+        </div>
+      </div>
+      <div class="guide-grid">
+        <article class="card guide-card">
+          <h3>🎮 Cara Main Sambung Ayat</h3>
+          <ol>
+            <li>Klik <b>Main</b> atau tombol ▶ Mulai.</li>
+            <li>Baca ayat yang ditampilkan, lalu pilih ayat selanjutnya dari 4 pilihan.</li>
+            <li>Benar → dapat XP + koin + combo. Salah → nyawa berkurang.</li>
+            <li>Pakai <b>Petunjuk</b> (10 koin) untuk mengaburkan 1 jawaban salah.</li>
+            <li>Selesaikan 10 soal atau sampai nyawa habis.</li>
+          </ol>
+        </article>
+        <article class="card guide-card">
+          <h3>☁️ Simpan Progres ke Cloud</h3>
+          <ol>
+            <li>Buka tab <b>☁️ Cloud</b>.</li>
+            <li>Isi <b>Nama</b> (min. 2 huruf) dan <b>PIN</b> (min. 3 karakter).</li>
+            <li>Klik <b>Simpan ke Cloud</b> — progres (XP, koin, streak, dll) tersimpan di Google Sheets.</li>
+            <li>Di HP/browser lain: isi nama + PIN yang sama → <b>Ambil dari Cloud</b>.</li>
+          </ol>
+          <p class="guide-warn">Jangan bagikan PIN. Siapa yang punya nama+PIN bisa restore akun itu.</p>
+        </article>
+        <article class="card guide-card">
+          <h3>🏆 Leaderboard</h3>
+          <p>Ranking global berdasarkan total XP. Tekan <b>Refresh</b> di tab Cloud untuk melihat peringkat terbaru. Main &amp; simpan ke cloud agar namamu muncul.</p>
+        </article>
+        <article class="card guide-card">
+          <h3>💌 Kirim Saran</h3>
+          <p>Di tab Cloud, tulis permintaan surah atau saran fitur, lalu kirim. Admin bisa melihatnya di panel Admin.</p>
+        </article>
+        <article class="card guide-card">
+          <h3>📊 Statistik &amp; Badge</h3>
+          <p>Tab Statistik menampilkan level, akurasi, streak terbaik, dan badge. Badge terbuka otomatis saat syarat terpenuhi (mis. 100 XP, 5 game, dll).</p>
+        </article>
+        <article class="card guide-card">
+          <h3>🔐 Panel Admin (pemilik situs)</h3>
+          <ol>
+            <li>Deploy Apps Script dulu (lihat SETUP-GOOGLE.md).</li>
+            <li>Tempel URL API di Cloud → Pengaturan API.</li>
+            <li>Klik menu <b>🔐 Admin</b> → masukkan password admin.</li>
+            <li>Kelola user &amp; feedback (lihat, edit, hapus, buat baru).</li>
+          </ol>
+        </article>
+      </div>
+      <div class="card guide-card guide-db">
+        <h3>🗄️ Apa saja yang disimpan di database?</h3>
+        <table class="guide-table">
+          <thead><tr><th>Data</th><th>Isi</th><th>Siapa yang pakai</th></tr></thead>
+          <tbody>
+            <tr><td><b>Users</b></td><td>Nama, PIN, XP, koin, streak, games, akurasi, dll</td><td>Pemain (save/load) + Admin CRUD</td></tr>
+            <tr><td><b>Feedback</b></td><td>Saran &amp; request surah</td><td>Pemain kirim · Admin lihat/hapus</td></tr>
+            <tr><td><b>Config</b></td><td>Meta aplikasi</td><td>Sistem (otomatis)</td></tr>
+            <tr><td><b>Leaderboard</b></td><td>Dihitung dari Users (XP tertinggi)</td><td>Semua pengunjung</td></tr>
+          </tbody>
+        </table>
+        <p class="cloud-hint" style="margin-top:12px">Password admin &amp; ID spreadsheet disimpan di <b>Script Properties</b> Apps Script — tidak pernah masuk file di GitHub Pages.</p>
+      </div>
+    </section>
+
+    <section id="admin" class="page">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">ADMIN</span>
+          <h2>Panel Admin</h2>
+          <p>Kelola data cloud (Users &amp; Feedback). Password disimpan di Apps Script, bukan di GitHub.</p>
+        </div>
+      </div>
+      <div id="adminLoginBox" class="card cloud-card admin-login">
+        <h3>🔐 Login Admin</h3>
+        <p class="cloud-hint">Masukkan password admin (default: diset di Script Properties saat setup otomatis).</p>
+        <div class="form-row">
+          <label>Password Admin</label>
+          <input id="adminPassword" type="password" placeholder="Password admin" autocomplete="current-password">
+        </div>
+        <div class="form-row">
+          <label>URL API (jika belum diset)</label>
+          <input id="adminApiUrl" type="url" placeholder="https://script.google.com/macros/s/XXXX/exec">
+        </div>
+        <div class="cloud-actions">
+          <button id="btnAdminLogin" class="primary">Masuk</button>
+          <button id="btnAdminPing" class="ghost">Ping API</button>
+        </div>
+        <p id="adminLoginStatus" class="cloud-status"></p>
+      </div>
+      <div id="adminDash" class="admin-dash" hidden>
+        <div class="admin-toolbar card">
+          <div class="admin-stats-row" id="adminStatsRow">
+            <span>👥 Users: <b id="adStatUsers">—</b></span>
+            <span>🎮 Games: <b id="adStatGames">—</b></span>
+            <span>✨ XP: <b id="adStatXp">—</b></span>
+            <span>💌 Feedback: <b id="adStatFb">—</b></span>
+          </div>
+          <div class="cloud-actions">
+            <button id="btnAdminRefresh" class="secondary">🔄 Refresh data</button>
+            <button id="btnAdminLogout" class="ghost">Keluar</button>
+          </div>
+          <p id="adminDashStatus" class="cloud-status"></p>
+        </div>
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-atab="users">👥 Users</button>
+          <button class="admin-tab" data-atab="feedback">💌 Feedback</button>
+          <button class="admin-tab" data-atab="settings">⚙️ Settings</button>
+        </div>
+        <div id="atab-users" class="admin-panel active">
+          <div class="card cloud-card">
+            <div class="lb-head">
+              <h3>Daftar User</h3>
+              <button id="btnUserCreate" class="primary small">+ Tambah User</button>
+            </div>
+            <div class="table-wrap">
+              <table class="admin-table" id="usersTable">
+                <thead>
+                  <tr>
+                    <th>Nama</th><th>PIN</th><th>XP</th><th>Level</th><th>Koin</th><th>Games</th><th>Streak</th><th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                  <tr><td colspan="8" class="muted">Belum ada data</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="userFormBox" class="card cloud-card" hidden>
+            <h3 id="userFormTitle">Tambah User</h3>
+            <input type="hidden" id="userFormId">
+            <div class="form-grid">
+              <div class="form-row"><label>Nama</label><input id="ufName" type="text" maxlength="40"></div>
+              <div class="form-row"><label>PIN</label><input id="ufPin" type="text" maxlength="12"></div>
+              <div class="form-row"><label>XP</label><input id="ufXp" type="number" min="0" value="0"></div>
+              <div class="form-row"><label>Koin</label><input id="ufCoins" type="number" min="0" value="100"></div>
+              <div class="form-row"><label>Games</label><input id="ufGames" type="number" min="0" value="0"></div>
+              <div class="form-row"><label>Streak</label><input id="ufStreak" type="number" min="0" value="0"></div>
+              <div class="form-row"><label>Best Streak</label><input id="ufBestStreak" type="number" min="0" value="0"></div>
+              <div class="form-row"><label>Correct</label><input id="ufCorrect" type="number" min="0" value="0"></div>
+              <div class="form-row"><label>Answered</label><input id="ufAnswered" type="number" min="0" value="0"></div>
+            </div>
+            <div class="cloud-actions">
+              <button id="btnUserSave" class="primary">💾 Simpan</button>
+              <button id="btnUserCancel" class="ghost">Batal</button>
+            </div>
+            <p id="userFormStatus" class="cloud-status"></p>
+          </div>
+        </div>
+        <div id="atab-feedback" class="admin-panel">
+          <div class="card cloud-card">
+            <div class="lb-head">
+              <h3>Feedback / Saran</h3>
+              <button id="btnFbClear" class="danger small">Hapus semua</button>
+            </div>
+            <div id="feedbackList" class="fb-list">
+              <div class="lb-empty">Belum ada feedback</div>
+            </div>
+          </div>
+        </div>
+        <div id="atab-settings" class="admin-panel">
+          <div class="card cloud-card">
+            <h3>Ganti Password Admin</h3>
+            <p class="cloud-hint">Password disimpan di Script Properties Apps Script (aman, tidak di GitHub).</p>
+            <div class="form-row">
+              <label>Password baru</label>
+              <input id="newAdminPass" type="password" maxlength="40" placeholder="min. 4 karakter">
+            </div>
+            <button id="btnChangeAdminPass" class="secondary">Ubah Password</button>
+            <p id="settingsStatus" class="cloud-status"></p>
+          </div>
+          <div class="card cloud-card" style="margin-top:12px">
+            <h3>Info Database</h3>
+            <p id="dbInfoText" class="cloud-hint">Klik Refresh data untuk memuat info.</p>
+            <a id="dbSheetLink" href="#" target="_blank" rel="noopener" class="secondary" style="display:none;text-align:center;text-decoration:none">Buka Google Sheet ↗</a>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
