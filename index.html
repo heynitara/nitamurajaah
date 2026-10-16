@@ -176,8 +176,8 @@
         <p id="feedbackStatus" class="cloud-status"></p>
       </div>
       <details class="card cloud-card api-config">
-        <summary>⚙️ URL API (isi sekali setelah deploy Apps Script)</summary>
-        <p class="cloud-hint">Tempel URL Web App dari Google Apps Script. Disimpan hanya di browser-mu (LocalStorage), <b>bukan</b> di file GitHub.</p>
+        <summary>⚙️ Pengaturan lanjutan (opsional)</summary>
+        <p class="cloud-hint">API sudah terhubung otomatis. Bagian ini hanya jika kamu ganti deployment Apps Script.</p>
         <div class="form-row">
           <label>Apps Script Web App URL</label>
           <input id="apiUrl" type="url" placeholder="https://script.google.com/macros/s/XXXX/exec">
@@ -236,8 +236,7 @@
           <h3>🔐 Panel Admin (pemilik situs)</h3>
           <ol>
             <li>Deploy Apps Script dulu (lihat SETUP-GOOGLE.md).</li>
-            <li>Tempel URL API di Cloud → Pengaturan API.</li>
-            <li>Klik menu <b>🔐 Admin</b> → masukkan password admin.</li>
+            <li>Klik menu <b>🔐 Admin</b> → masukkan password admin saja.</li>
             <li>Kelola user &amp; feedback (lihat, edit, hapus, buat baru).</li>
           </ol>
         </article>
@@ -267,18 +266,13 @@
       </div>
       <div id="adminLoginBox" class="card cloud-card admin-login">
         <h3>🔐 Login Admin</h3>
-        <p class="cloud-hint">Masukkan password admin (default: diset di Script Properties saat setup otomatis).</p>
+        <p class="cloud-hint">Hanya pemilik situs. Masukkan password admin (tersimpan di server Apps Script, bukan di GitHub).</p>
         <div class="form-row">
           <label>Password Admin</label>
           <input id="adminPassword" type="password" placeholder="Password admin" autocomplete="current-password">
         </div>
-        <div class="form-row">
-          <label>URL API (jika belum diset)</label>
-          <input id="adminApiUrl" type="url" placeholder="https://script.google.com/macros/s/XXXX/exec">
-        </div>
         <div class="cloud-actions">
           <button id="btnAdminLogin" class="primary">Masuk</button>
-          <button id="btnAdminPing" class="ghost">Ping API</button>
         </div>
         <p id="adminLoginStatus" class="cloud-status"></p>
       </div>

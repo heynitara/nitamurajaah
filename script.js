@@ -152,7 +152,6 @@ function go(page) {
     $('#apiUrl').value = getApiUrl();
   }
   if (page === 'admin') {
-    $('#adminApiUrl').value = getApiUrl();
     if (adminPassword) {
       showAdminDash(true);
       refreshAdminData();
@@ -556,13 +555,10 @@ function showAdminDash(show) {
 
 $('#btnAdminLogin').onclick = async () => {
   const pass = ($('#adminPassword').value || '').trim();
-  const apiFromForm = ($('#adminApiUrl').value || '').trim();
-  if (apiFromForm) setApiUrl(apiFromForm);
   const el = $('#adminLoginStatus');
   if (!pass) { setStatus(el, 'Isi password admin', 'error'); return; }
-  if (!getApiUrl()) { setStatus(el, 'Isi URL API dulu', 'error'); return; }
 
-  setStatus(el, 'Login...', '');
+  setStatus(el, 'Memverifikasi...', '');
   adminPassword = pass;
   try {
     const res = await apiCall('admin_login', { adminPassword: pass });
@@ -572,7 +568,7 @@ $('#btnAdminLogin').onclick = async () => {
     if (res.spreadsheetUrl) {
       $('#dbSheetLink').href = res.spreadsheetUrl;
       $('#dbSheetLink').style.display = 'block';
-      $('#dbInfoText').textContent = 'Spreadsheet ID: ' + (res.spreadsheetId || '—');
+      $('#dbInfoText').textContent = 'Spreadsheet terhubung';
     }
     await refreshAdminData();
     toast('🔐 Login admin berhasil');
@@ -580,19 +576,6 @@ $('#btnAdminLogin').onclick = async () => {
     adminPassword = '';
     sessionStorage.removeItem(ADMIN_PASS_KEY);
     setStatus(el, err.message || 'Login gagal', 'error');
-  }
-};
-
-$('#btnAdminPing').onclick = async () => {
-  const apiFromForm = ($('#adminApiUrl').value || '').trim();
-  if (apiFromForm) setApiUrl(apiFromForm);
-  const el = $('#adminLoginStatus');
-  setStatus(el, 'Ping...', '');
-  try {
-    const res = await apiCall('ping');
-    setStatus(el, res.message + (res.hasDatabase ? ' · DB siap' : ' · jalankan Setup dulu'), 'ok');
-  } catch (err) {
-    setStatus(el, err.message, 'error');
   }
 };
 
