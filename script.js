@@ -12,7 +12,7 @@ const ADMIN_PASS_KEY = 'muslimahStudy2AdminPassSession';
 const DEFAULT_API_URL = 'https://script.google.com/macros/s/AKfycbyYBo8DxYRvxfTpyi4WIV87_SqKgUJDwxhR2O-Exgt_KZm0HaFquBgen9LEPCprXMj1iA/exec';
 
 const defaultState = {
-  xp: 0, coins: 100, lives: 3, streak: 0, bestStreak: 0,
+  xp: 0, coins: 100, lives: 5, streak: 0, bestStreak: 0,
   games: 0, correct: 0, answered: 0, combo: 0, theme: 'light',
   cloudName: '', lastSave: null
 };
@@ -187,13 +187,36 @@ function allPairs() {
 }
 function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
 function makeQuestions() {
-  return shuffle(allPairs().slice()).slice(0, Math.min(10, allPairs().length));
+  // 30 soal yang mencakup 30 juz (1 soal per juz bila memungkinkan)
+  const pairs = allPairs();
+  const byJuz = {};
+  for (let j = 1; j <= 30; j++) byJuz[j] = [];
+  pairs.forEach(p => {
+    const juzList = p.surah.juz || [];
+    // pakai juz utama (pertama) agar tiap pair masuk ke satu bucket
+    const j = juzList.length ? juzList[0] : 30;
+    if (byJuz[j]) byJuz[j].push(p);
+  });
+  const selected = [];
+  for (let j = 1; j <= 30; j++) {
+    const pool = byJuz[j];
+    if (pool && pool.length) {
+      selected.push(pool[Math.floor(Math.random() * pool.length)]);
+    }
+  }
+  // jika ada juz kosong (jarang), isi sisa dari pool global sampai 30
+  if (selected.length < 30) {
+    const used = new Set(selected.map(x => x.surah.id + ':' + x.ayah.n));
+    const rest = shuffle(pairs.filter(p => !used.has(p.surah.id + ':' + p.ayah.n)));
+    while (selected.length < 30 && rest.length) selected.push(rest.pop());
+  }
+  return shuffle(selected).slice(0, Math.min(30, selected.length));
 }
 
 function startGame() {
   clearInterval(timerId);
   gameOver = false;
-  state.lives = 3;
+  state.lives = 5; // lebih longgar karena 30 soal (30 juz)
   state.combo = 0;
   qIndex = 0;
   session = { correct: 0, answered: 0, xp: 0, coins: 0, score: 0 };
@@ -326,6 +349,14 @@ function finishGame() {
   $('#resultAccuracy').textContent = acc + '%';
   $('#resultXp').textContent = '+' + session.xp;
   $('#resultCoins').textContent = '+' + session.coins;
+  // Sertifikat: selesai 30 soal (mencakup 30 juz) + akurasi >= 60%
+  const certBtn = $('#btnCert');
+  if (certBtn) {
+    const eligible = acc >= 60 && session.answered >= 30;
+    certBtn.style.display = eligible ? 'inline-flex' : 'none';
+    certBtn.dataset.acc = String(acc);
+    certBtn.dataset.score = String(session.score);
+  }
   $('#resultModal').classList.add('show');
 }
 
@@ -340,25 +371,35 @@ $('#saveAfterGame').onclick = () => {
 
 function renderSurahs(filter = '') {
   if (!DATA) return;
-  const f = filter.toLowerCase();
-  const list = DATA.surahs.filter(s =>
-    s.name.toLowerCase().includes(f) || s.arabicName.includes(filter)
-  );
-  $('#surahList').innerHTML = list.map(s => `
+  const f = (filter || '').toLowerCase().trim();
+  const list = DATA.surahs.filter(s => {
+    if (!f) return true;
+    const juzStr = (s.juz || []).map(String).join(' ');
+    return s.name.toLowerCase().includes(f)
+      || (s.arabicName || '').includes(filter)
+      || String(s.number || '').includes(f)
+      || juzStr.includes(f)
+      || ('juz ' + juzStr).includes(f);
+  });
+  $('#surahList').innerHTML = list.map(s => {
+    const juz = (s.juz && s.juz.length) ? 'Juz ' + s.juz.join(', ') : '';
+    const num = s.number ? s.number + '. ' : '';
+    return `
     <article class="surah-card card">
-      <div class="arabic">${s.arabicName}</div>
-      <h3>${s.name}</h3>
-      <small>${s.ayahs.length} ayat dalam dataset</small>
+      <div class="arabic">${s.arabicName || ''}</div>
+      <h3>${num}${s.name}</h3>
+      <small>${s.ayahs.length} ayat${juz ? ' · ' + juz : ''}</small>
       <p>${s.ayahs.slice(0, 2).map(a => a.text).join(' • ')}</p>
       <button class="secondary play-surah" data-id="${s.id}">▶ Latihan</button>
-    </article>
-  `).join('') || `<div class="notice card">Surah tidak ditemukan 🌷</div>`;
+    </article>`;
+  }).join('') || `<div class="notice card">Surah tidak ditemukan 🌷</div>`;
   $$('.play-surah').forEach(b => b.onclick = () => {
     questions = allPairs().filter(x => x.surah.id === b.dataset.id);
     if (!questions.length) { toast('Surah ini belum punya pasangan ayat.'); return; }
     qIndex = 0;
     session = { correct: 0, answered: 0, xp: 0, coins: 0, score: 0 };
     state.lives = 3;
+    gameOver = false;
     go('game');
     renderQuestion();
   });
@@ -370,7 +411,7 @@ function renderBadges() {
     ['🌱', 'First Step', state.games >= 1, 'Selesaikan 1 game'],
     ['🔥', 'Streak Girl', state.streak >= 3, 'Streak 3 hari'],
     ['⭐', 'XP Hunter', state.xp >= 100, 'Kumpulkan 100 XP'],
-    ['🎯', 'Sharp Mind', state.correct >= 10, 'Jawab 10 soal benar'],
+    ['🎯', 'Sharp Mind', state.correct >= 30, 'Jawab 30 soal benar'],
     ['🪙', 'Coin Collector', state.coins >= 150, 'Punya 150 koin'],
     ['🏆', 'Level Up', level() >= 3, 'Capai level 3'],
     ['🌷', 'Consistent', state.games >= 5, 'Selesaikan 5 game'],
@@ -778,6 +819,151 @@ $$('.admin-tab').forEach(tab => {
     if (panel) panel.classList.add('active');
   };
 });
+
+
+/* ── Sertifikat Murojaah ───────────────────────────────── */
+function openCertModal() {
+  const nameFromCloud = (state.cloudName || '').trim();
+  const el = $('#certName');
+  if (el && !el.value) el.value = nameFromCloud || '';
+  $('#certModal').classList.add('show');
+  drawCertificate();
+}
+
+function drawCertificate() {
+  const canvas = $('#certCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  const name = ($('#certName').value || 'Muslimah Learner').trim() || 'Muslimah Learner';
+  const acc = ($('#btnCert') && $('#btnCert').dataset.acc) || '—';
+  const score = ($('#btnCert') && $('#btnCert').dataset.score) || '0';
+  const today = new Date();
+  const tgl = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Background
+  const g = ctx.createLinearGradient(0, 0, W, H);
+  g.addColorStop(0, '#fff7fb');
+  g.addColorStop(0.5, '#ffe8f0');
+  g.addColorStop(1, '#fff0f6');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  // Decorative border
+  ctx.strokeStyle = '#e891b0';
+  ctx.lineWidth = 10;
+  ctx.strokeRect(28, 28, W - 56, H - 56);
+  ctx.strokeStyle = '#f7b7cf';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(42, 42, W - 84, H - 84);
+
+  // Corner flowers
+  ctx.font = '36px serif';
+  ctx.fillStyle = '#e891b0';
+  [[50, 70], [W - 80, 70], [50, H - 50], [W - 80, H - 50]].forEach(([x, y]) => {
+    ctx.fillText('🌷', x, y);
+  });
+
+  // Header
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#c2185b';
+  ctx.font = 'bold 22px "Segoe UI", system-ui, sans-serif';
+  ctx.fillText('MUSLIMAH STUDY 2', W / 2, 95);
+  ctx.font = '16px "Segoe UI", system-ui, sans-serif';
+  ctx.fillStyle = '#9c4a6a';
+  ctx.fillText('Sambung Ayat by Donita', W / 2, 122);
+
+  // Title
+  ctx.fillStyle = '#ad1457';
+  ctx.font = 'bold 42px "Georgia", "Times New Roman", serif';
+  ctx.fillText('SERTIFIKAT MUROJAAH', W / 2, 185);
+
+  ctx.fillStyle = '#7a3a52';
+  ctx.font = '18px "Segoe UI", system-ui, sans-serif';
+  ctx.fillText('Diberikan kepada', W / 2, 235);
+
+  // Recipient name
+  ctx.fillStyle = '#880e4f';
+  ctx.font = 'bold 36px "Georgia", serif';
+  ctx.fillText(name, W / 2, 285);
+
+  // underline
+  ctx.strokeStyle = '#f48fb1';
+  ctx.lineWidth = 2;
+  const nameW = Math.min(ctx.measureText(name).width + 40, 520);
+  ctx.beginPath();
+  ctx.moveTo(W / 2 - nameW / 2, 298);
+  ctx.lineTo(W / 2 + nameW / 2, 298);
+  ctx.stroke();
+
+  // Body text
+  ctx.fillStyle = '#5d3a48';
+  ctx.font = '17px "Segoe UI", system-ui, sans-serif';
+  const lines = [
+    'telah berhasil menyelesaikan 30 soal sambung ayat',
+    'yang mencakup Juz 1 sampai Juz 30 Al-Qur\'an,',
+    'dengan semangat istiqamah dan niat yang baik.',
+    `Akurasi: ${acc}%  ·  Skor: ${score}`,
+    'Semoga hafalan semakin kuat dan hati semakin dekat dengan Kalamullah.'
+  ];
+  lines.forEach((ln, i) => ctx.fillText(ln, W / 2, 340 + i * 28));
+
+  // Date
+  ctx.fillStyle = '#9c4a6a';
+  ctx.font = '15px "Segoe UI", system-ui, sans-serif';
+  ctx.fillText(tgl, W / 2, 470);
+
+  // Signature block
+  ctx.fillStyle = '#6a2c40';
+  ctx.font = 'italic 28px "Brush Script MT", "Segoe Script", "Apple Chancery", cursive';
+  ctx.fillText('Putri Donita Al-Hafidzah', W / 2, 540);
+
+  ctx.fillStyle = '#9c4a6a';
+  ctx.font = '13px "Segoe UI", system-ui, sans-serif';
+  ctx.fillText('Pembuat & Pengasuh Muslimah Study 2', W / 2, 568);
+  ctx.fillText('— Learn · Grow · Pray · Become Better —', W / 2, 590);
+
+  // small seal
+  ctx.beginPath();
+  ctx.arc(W / 2 + 280, 540, 36, 0, Math.PI * 2);
+  ctx.strokeStyle = '#e891b0';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.font = '20px serif';
+  ctx.fillStyle = '#c2185b';
+  ctx.fillText('🌷', W / 2 + 280, 548);
+}
+
+$('#btnCert') && ($('#btnCert').onclick = () => {
+  $('#resultModal').classList.remove('show');
+  openCertModal();
+});
+$('#closeCert') && ($('#closeCert').onclick = () => $('#certModal').classList.remove('show'));
+$('#btnGenCert') && ($('#btnGenCert').onclick = () => { drawCertificate(); toast('Sertifikat diperbarui ✨'); });
+$('#btnDlCert') && ($('#btnDlCert').onclick = () => {
+  drawCertificate();
+  const canvas = $('#certCanvas');
+  const a = document.createElement('a');
+  const safe = (($('#certName').value || 'muslimah').trim() || 'muslimah').replace(/[^\w\s\-]/g, '').replace(/\s+/g, '_');
+  a.download = 'Sertifikat_Murojaah_' + safe + '.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+  toast('Sertifikat diunduh 🏅');
+});
+$('#btnPrintCert') && ($('#btnPrintCert').onclick = () => {
+  drawCertificate();
+  const canvas = $('#certCanvas');
+  const w = window.open('');
+  if (!w) { toast('Izinkan pop-up untuk cetak'); return; }
+  w.document.write('<html><head><title>Sertifikat Murojaah</title></head><body style="margin:0;display:flex;justify-content:center;background:#fff">');
+  w.document.write('<img src="' + canvas.toDataURL('image/png') + '" style="max-width:100%;height:auto"/>');
+  w.document.write('</body></html>');
+  w.document.close();
+  setTimeout(() => { w.focus(); w.print(); }, 400);
+});
+$('#certName') && ($('#certName').oninput = () => { /* live optional */ });
+
 
 /* Boot */
 loadData();

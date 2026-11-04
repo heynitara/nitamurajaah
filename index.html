@@ -67,7 +67,7 @@
         <div class="game-top">
           <div><span class="eyebrow">SAMBUNG AYAT</span><h2 id="gameSurah">QS. Ad-Duha</h2></div>
           <div class="game-meta">
-            <span>❤️ <b id="lives">3</b></span>
+            <span>❤️ <b id="lives">5</b></span>
             <span>🪙 <b id="coins">100</b></span>
             <span>⏱️ <b id="timer">30</b>s</span>
           </div>
@@ -78,7 +78,7 @@
         </div>
         <div class="question card">
           <div class="question-title">
-            <span id="questionCount">Pertanyaan 1/10</span>
+            <span id="questionCount">Pertanyaan 1/30</span>
             <span id="combo">Combo ×0</span>
           </div>
           <div class="ayah-label">Ayat sebelumnya</div>
@@ -99,12 +99,12 @@
         <div>
           <span class="eyebrow">EXPLORE</span>
           <h2>Surah &amp; Ayat</h2>
-          <p>Materi demo yang bisa kamu jadikan dasar untuk memperluas bank soal.</p>
+          <p>Semua 114 surah dari Juz 1 sampai Juz 30 tersedia. Cari & latihan per surah.</p>
         </div>
       </div>
       <div class="search card"><span>🔎</span><input id="surahSearch" placeholder="Cari nama surah..."></div>
       <div id="surahList" class="surah-grid"></div>
-      <div class="notice card">📌 <b>Catatan:</b> konten ayat pada versi ini adalah dataset demo. Untuk belajar serius, cocokkan teks dengan mushaf atau sumber Al-Qur'an tepercaya.</div>
+      <div class="notice card">📌 <b>Catatan:</b> Dataset lengkap 114 surah (Juz 1–30). Teks Arab Uthmani. Untuk belajar serius, cocokkan dengan mushaf tepercaya.</div>
     </section>
 
     <section id="stats" class="page">
@@ -207,7 +207,8 @@
             <li>Baca ayat yang ditampilkan, lalu pilih ayat selanjutnya dari 4 pilihan.</li>
             <li>Benar → dapat XP + koin + combo. Salah → nyawa berkurang.</li>
             <li>Pakai <b>Petunjuk</b> (10 koin) untuk mengaburkan 1 jawaban salah.</li>
-            <li>Selesaikan 10 soal atau sampai nyawa habis.</li>
+            <li>Selesaikan <b>30 soal</b> (1 soal dari tiap Juz 1–30) atau sampai nyawa habis.</li>
+            <li>Selesai 30 soal + akurasi ≥ 60% → bisa ambil <b>Sertifikat Murojaah</b>.</li>
           </ol>
         </article>
         <article class="card guide-card">
@@ -381,7 +382,30 @@
         <div><small>Koin</small><b id="resultCoins">+0</b></div>
       </div>
       <button class="primary" id="againBtn">▶ Main lagi</button>
-      <button class="secondary" id="saveAfterGame" style="margin-top:8px">☁️ Simpan ke Cloud</button>
+      <button class="secondary" id="btnCert" style="margin-top:8px;display:none">🏅 Ambil Sertifikat</button>
+      <button class="ghost" id="saveAfterGame" style="margin-top:8px">☁️ Simpan ke Cloud</button>
+    </div>
+  </div>
+
+  <!-- Sertifikat Murojaah -->
+  <div id="certModal" class="modal">
+    <div class="modal-box card cert-box">
+      <button id="closeCert" class="modal-close">×</button>
+      <h2 style="margin-bottom:4px">🏅 Sertifikat Murojaah</h2>
+      <p class="cloud-hint" style="margin-bottom:12px">Isi namamu, lalu unduh sertifikat kelulusan dari game ini.</p>
+      <div class="form-row">
+        <label>Nama penerima</label>
+        <input id="certName" type="text" maxlength="48" placeholder="contoh: Aisyah Putri">
+      </div>
+      <div class="cert-preview-wrap">
+        <canvas id="certCanvas" width="900" height="640"></canvas>
+      </div>
+      <div class="cloud-actions" style="margin-top:12px;flex-wrap:wrap;gap:8px">
+        <button id="btnGenCert" class="primary">✨ Buat / Preview</button>
+        <button id="btnDlCert" class="secondary">⬇️ Unduh PNG</button>
+        <button id="btnPrintCert" class="ghost">🖨️ Cetak</button>
+      </div>
+      <p class="cloud-note" style="margin-top:10px">Ditandatangani atas nama <b>Putri Donita Al-Hafidzah</b> 🌷</p>
     </div>
   </div>
 </div>

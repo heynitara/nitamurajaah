@@ -715,3 +715,33 @@ body.dark code { background: #3a2e33; }
 @media (max-width: 800px) {
   .mode-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── Certificate ───────────────────────────────────────── */
+.cert-box {
+  max-width: 940px;
+  width: min(96vw, 940px);
+  text-align: left;
+}
+.cert-preview-wrap {
+  margin-top: 10px;
+  overflow: auto;
+  border-radius: 14px;
+  border: 1px solid #f0c8d6;
+  background: #fffafc;
+  max-height: 52vh;
+}
+#certCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 900px;
+}
+body.dark .cert-preview-wrap {
+  background: #2a2226;
+  border-color: #5a3a48;
+}
+.music-btn.music-on {
+  background: linear-gradient(135deg, #f7b7cf, #f48fb1);
+  color: #5a1f35;
+  font-weight: 600;
+}
