@@ -231,7 +231,7 @@ function renderQuestion() {
   const s = q.surah;
   $('#gameSurah').textContent = 'QS. ' + s.name;
   $('#questionCount').textContent = `Pertanyaan ${qIndex + 1}/${questions.length}`;
-  $('#currentAyah').textContent = q.ayah.text + ' ۝' + q.ayah.n;
+  $('#currentAyah').textContent = q.ayah.text;
   $('#combo').textContent = 'Combo ×' + state.combo;
 
   const correct = q.next;
@@ -245,7 +245,7 @@ function renderQuestion() {
   candidates = shuffle(candidates).slice(0, 4);
 
   $('#answers').innerHTML = candidates
-    .map(a => `<button class="answer" data-n="${a.n}">${a.text} ۝${a.n}</button>`)
+    .map(a => `<button class="answer" data-n="${a.n}">${a.text}</button>`)
     .join('');
   $$('.answer').forEach(b => b.onclick = () => answer(+b.dataset.n, correct.n, b));
   resetTimer();
@@ -917,7 +917,7 @@ function drawCertificate() {
   // Signature block
   ctx.fillStyle = '#6a2c40';
   ctx.font = 'italic 28px "Brush Script MT", "Segoe Script", "Apple Chancery", cursive';
-  ctx.fillText('Putri Donita Al-Hafidzah', W / 2, 540);
+  ctx.fillText('PUTRI DONITA S.PD,I', W / 2, 540);
 
   ctx.fillStyle = '#9c4a6a';
   ctx.font = '13px "Segoe UI", system-ui, sans-serif';

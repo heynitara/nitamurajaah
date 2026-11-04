@@ -9,7 +9,7 @@ Game belajar sambung ayat (HTML/CSS/JS) + **database gratis** via Google Sheets 
 * **114 surah lengkap** (Juz 1–30) — dataset Arab Uthmani, bisa dicari per nama / nomor / juz
 * **Musik background selalu ON** (default) + loop terus agar tidak bosan; preferensi tersimpan
 * **30 soal = 30 juz** — setiap game mengambil 1 soal dari tiap Juz 1–30
-* **Sertifikat Murojaah** — setelah selesai 30 soal + akurasi ≥ 60%. Bisa diisi nama, unduh PNG, atau cetak. Ditandatangani atas nama **Putri Donita Al-Hafidzah**
+* **Sertifikat Murojaah** — setelah selesai 30 soal + akurasi ≥ 60%. Bisa diisi nama, unduh PNG, atau cetak. Ditandatangani atas nama **PUTRI DONITA S.PD,I**
 * Nyawa default **5** (karena soal lebih banyak)
 
 ## Fitur
@@ -43,4 +43,4 @@ Detail: lihat `SETUP-GOOGLE.md` di repo asli jika masih dipakai.
 └── ...
 ```
 
-Made with 🌷 for Muslimah Study 2 — by **Putri Donita Al-Hafidzah**.
+Made with 🌷 for Muslimah Study 2 — by **PUTRI DONITA S.PD,I**.
